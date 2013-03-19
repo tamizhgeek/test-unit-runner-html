@@ -1,0 +1,42 @@
+= Test::Unit::Runner::Html
+
+
+== DESCRIPTION:
+
+<b>Test::Unit::Runner::Html</b> - A console Test::Unit UI to emit html reports.
+
+
+== INSTALL:
+
+   $ sudo gem install test-unit-runner-html
+
+== USAGE:
+
+It you test helper script use:
+
+  require 'test/unit/runner/html'
+
+Then you can select the runner via the `--runner` command line option.
+
+  $ ruby test/run_tests.rb --runner=html
+
+== LICENSE:
+
+(LGPL v3.0 License)
+
+Copyright (c) 2013 Azhagu Selvan SP <tamizhgeek@gmail.com>
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+(See COPYING file for more details.)
