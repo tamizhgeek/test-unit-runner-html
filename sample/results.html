@@ -1,0 +1,105 @@
+<html>
+<head>
+<title> Test Results</title>
+</head>
+<body>
+<h1> Now executing test suite : test_trouble</h1>
+<h1> Total number of tests : 5</h1>
+<h1> Test Started at Tue Mar 19 12:32:36 +0530 2013</h1>
+
+<br>
+   Test name : test_add(TestExample), Result : Passed
+  <br>
+  Captured Output : 
+
+<br>
+<hr>
+<br>
+  Test name : test_error(TestExample), Result : Failed
+
+  <br>
+  Captured Output : 
+
+<br>
+ Message : <code> ArgumentError: it did not go so well </code>
+<br>
+ Class : Test::Unit::Error
+<br>
+  Line : 23
+<br>
+  Source :
+  <br>
+  <code> raise ArgumentError, &quot;it did not go so well&quot; </code>
+<br>
+  snippet :
+  <br>
+  <code>
+      21 
+   22   def test_error
+=&gt; 23     raise ArgumentError, &quot;it did not go so well&quot;
+   24   end
+   25 
+  </code>
+<br>
+  backtrace :
+ <br>
+<code> test_trouble.rb:23 </code>
+<hr>
+<br>
+  Test name : test_failure(TestExample), Result : Failed
+
+  <br>
+  Captured Output : 
+
+<br>
+ Message : <code> &lt;3&gt; expected but was
+&lt;1&gt;. </code>
+<br>
+ Class : Test::Unit::Failure
+<br>
+  Line : 19
+<br>
+  Source :
+  <br>
+  <code> assert_equal(3, 1) </code>
+<br>
+  snippet :
+  <br>
+  <code>
+      17 
+   18   def test_failure
+=&gt; 19     assert_equal(3, 1)
+   20   end
+   21 
+  </code>
+<br>
+  backtrace :
+ <br>
+<code> test_trouble.rb:19 </code>
+<hr>
+<br>
+   Test name : test_output(TestExample), Result : Passed
+  <br>
+  Captured Output : stdoutYou should see me.
+
+<br>
+<hr>
+<br>
+   Test name : test_subtract(TestExample), Result : Passed
+  <br>
+  Captured Output : 
+
+<br>
+<hr>
+<br>
+<br>
+<h1>Test Suite Ended. Time Taken : 0.012225
+<br>
+Total tests : 5
+<br>
+Passed : 3
+<br>
+Failed : 2
+</h1>
+</body>
+</html>
