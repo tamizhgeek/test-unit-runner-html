@@ -12,7 +12,8 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = ">= 1.3.6"
 #  s.rubyforge_project         = "foodie"
-
+  s.add_dependency "test-unit"
+  s.add_dependency "mustache"
   s.add_development_dependency "bundler", ">= 1.0.0"
 
   s.files        = `git ls-files`.split("\n")

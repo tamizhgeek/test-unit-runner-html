@@ -1,3 +1,6 @@
+# coding: utf-8
+# Copyright (c) 2013 Azhagu Selvan SP <tamizhgeek@gmail.com> (LGPL V3.0)
+
 require 'test/unit/ui/testrunner'
 require 'test/unit/ui/testrunnermediator'
 require 'stringio'

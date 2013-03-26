@@ -1,3 +1,5 @@
+# coding: utf-8
+# Copyright (c) 2013 Azhagu Selvan SP <tamizhgeek@gmail.com> (LGPL V3.0)
 require 'rubygems'
 gem 'mustache'
 require 'mustache'
