@@ -107,7 +107,7 @@ module Test
             @counts[:fail] += 1
             @already_outputted = true #if fault.critical?
             output = reset_output
-            html = TestCaseResultFault.new(fault.test_name, "Failed", output, result['exception']).render
+            html = TestCaseResult.new(fault.test_name, "Failed", output, result['exception']).render
             @html_result << html
             puts html
           end
@@ -289,15 +289,14 @@ module Test
             $stderr = @_newerr
           end
 
-          # Restore original stdout and stderr. Return the captured output as a hash
+          # Restore original stdout and stderr. Return the captured output as a string
           def reset_output
             stdout = @_newout.string.chomp("\n")
             stderr = @_newerr.string.chomp("\n")
 
-            doc = {}
-            doc['stdout'] = stdout unless stdout.empty?
-            doc['stderr'] = stderr unless stderr.empty?
-
+            doc = ""
+            doc << stdout unless stdout.empty?
+            doc << stderr unless stdout.empty?
             $stdout = @_oldout
             $stderr = @_olderr
 

@@ -34,42 +34,41 @@ module Test
         end
 
         class TestCaseResult < BasicTemplate
-          attr_reader :name, :result, :output
+          attr_reader :name, :result, :output, :message, :class_name, :line, :source, :backtrace, :exception, :snippet
 
           self.template_name = 'test_case_result'
 
-          def initialize(name, result, output)
+          def initialize(name, result, output, exception = {})
             @name = name
             @result = result
             @output = output
+            @exception = exception
+            if fault
+              @message = exception['message']
+              @class_name = exception['class']
+              @line = exception['line']
+              @source = exception['source']
+              @snippet = exception['snippet']
+              @backtrace = exception['backtrace']
+            end  
           end
-
-          def name
-            @name
+          
+          def stdout_present
+            !@output.empty?
           end
-
-          def result
-            @result
-          end
+          def fault
+            !@exception.empty?
+          end  
         end
 
-        class TestCaseResultFault < TestCaseResult
-          attr_reader :message, :class_name, :line, :source, :backtrace, :exception
-          self.template_name = 'test_case_result_fault'
-          def initialize(name, result, details ,exception)
-            super(name, result, details)
-            @exception = true
-            @message = exception['message']
-            @class_name = exception['class']
-            @line = exception['line']
-            @source = exception['source']
-            @snippet = exception['snippet']
-            @backtrace = exception['backtrace']
-          end
-          def snippet
-            @snippet
-          end
-        end
+        # class TestCaseResultFault < BasicTemplate
+        #   self.template_name = 'test_case_result_fault'
+        #   def initialize(exception = {})
+        #     super(name, result, output)
+        #     @exception = true
+           
+        #   end
+        # end
 
         class Info < BasicTemplate
           attr_reader :name, :size, :started_at

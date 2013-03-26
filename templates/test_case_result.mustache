@@ -1,9 +1,12 @@
 <br>
    Test name : {{name}}, Result : {{result}}
-    {{#output}}
+    {{#stdout_present}}
   <br>
   Captured Output : {{output}}
-   {{/output}}
+   {{/stdout_present}}
 
 <br>
 <hr>
+{{#fault}}
+{{>test_case_result_fault}}
+{{/fault}}
