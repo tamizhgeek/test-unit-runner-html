@@ -1,6 +1,6 @@
 require 'rubygems'
 gem 'test-unit'
-require '../lib/test/unit/runner/html.rb'
+require 'test/unit/runner/html.rb'
 
 class TestExample < Test::Unit::TestCase
   def setup
@@ -26,6 +26,7 @@ class TestExample < Test::Unit::TestCase
   def test_output
     puts "You should see me."
     assert_equal(1,1)
+    puts "You should see me too"
   end
 
   def teardown

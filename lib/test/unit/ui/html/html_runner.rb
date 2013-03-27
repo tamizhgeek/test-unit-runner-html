@@ -46,8 +46,8 @@ module Test
             @mediator.add_listener(Test::Unit::UI::TestRunnerMediator::FINISHED, &method(:after_suite)) # After finishing the whole suite
             @mediator.add_listener(Test::Unit::TestCase::STARTED,         &method(:before_test)) # Before a individual test case
             @mediator.add_listener(Test::Unit::TestCase::FINISHED,        &method(:after_test)) # After a individual test case
-#            @mediator.add_listener(Test::Unit::TestSuite::STARTED_OBJECT,        &method(:html_before_case))
- #           @mediator.add_listener(Test::Unit::TestSuite::FINISHED_OBJECT,       &method(:html_after_case))
+            @mediator.add_listener(Test::Unit::TestSuite::STARTED_OBJECT,        &method(:html_before_case))
+            @mediator.add_listener(Test::Unit::TestSuite::FINISHED_OBJECT,       &method(:html_after_case))
           end
 
           #
@@ -76,11 +76,19 @@ module Test
           end
 
           def html_before_case(testcase)
+            if @level > 0 # This is to exclude to wrapper test script from the test report. Top level test suite will be ignored
+              html = TestSuiteStart.new(testcase, @level).render
+              @html_result <<  html
+            end
             @level = @level  + 1
-          end
+           end
 
           def html_after_case(testcase)
             @level = @level - 1
+            if @level > 0 # This is to exclude to wrapper test script from the test report. Top level test suite will be ignored
+              html = TestSuiteEnd.new(testcase).render
+              @html_result <<  html
+            end
           end
 
           def before_test(test)
@@ -291,8 +299,8 @@ module Test
 
           # Restore original stdout and stderr. Return the captured output as a string
           def reset_output
-            stdout = @_newout.string.chomp("\n")
-            stderr = @_newerr.string.chomp("\n")
+            stdout = @_newout.string#.chomp("\n")
+            stderr = @_newerr.string#.chomp("\n")
 
             doc = ""
             doc << stdout unless stdout.empty?

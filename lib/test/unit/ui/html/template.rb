@@ -30,7 +30,27 @@ module Test
           def fail
             @fail
           end
+        end
 
+        class TestSuiteStart < BasicTemplate
+          attr_reader :name, :size, :level
+          self.template_name = "test_suite_start"
+
+          def initialize(testcase, level)
+            @name = testcase.name
+            @size = testcase.size
+            @level = level
+          end
+        end
+
+        class TestSuiteEnd < BasicTemplate
+          attr_reader :name, :result
+          self.template_name = "test_suite_end"
+
+          def initialize(testcase)
+            @name = testcase.name
+            @result = testcase.passed? ? "Passed" : "Failed"
+          end
         end
 
         class TestCaseResult < BasicTemplate
@@ -50,25 +70,16 @@ module Test
               @source = exception['source']
               @snippet = exception['snippet']
               @backtrace = exception['backtrace']
-            end  
+            end
           end
-          
+
           def stdout_present
             !@output.empty?
           end
           def fault
             !@exception.empty?
-          end  
+          end
         end
-
-        # class TestCaseResultFault < BasicTemplate
-        #   self.template_name = 'test_case_result_fault'
-        #   def initialize(exception = {})
-        #     super(name, result, output)
-        #     @exception = true
-           
-        #   end
-        # end
 
         class Info < BasicTemplate
           attr_reader :name, :size, :started_at

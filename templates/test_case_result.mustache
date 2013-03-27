@@ -1,4 +1,4 @@
-<br>
+<br><div class="test-result {{#fault}}red{{/fault}}">
    Test name : {{name}}, Result : {{result}}
     {{#stdout_present}}
   <br>
@@ -8,7 +8,7 @@
    {{/stdout_present}}
 
 <br>
-<hr>
 {{#fault}}
 {{>test_case_result_fault}}
 {{/fault}}
+</div>
