@@ -1,14 +1,4 @@
-<br><div class="test-result {{#fault}}red{{/fault}}">
-   Test name : {{name}}, Result : {{result}}
-    {{#stdout_present}}
-  <br>
-  Captured Output :
-  <br>
-  <code> {{output}} </code>
-   {{/stdout_present}}
-
-<br>
-{{#fault}}
-{{>test_case_result_fault}}
-{{/fault}}
-</div>
+<tr class="{{#testresult}} passCase {{/testresult}} {{^testresult}} failCase {{/testresult}}">
+<td>{{name}}</td>
+<td>{{status}}</td>
+</tr>

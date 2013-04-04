@@ -16,6 +16,10 @@ background-color: green;
 {
 background-color: red;
 }
+.green
+{
+background-color: green;
+}
 .level1
 {
  padding-left: 10px;
@@ -24,6 +28,54 @@ background-color: red;
 {
  padding-left: 30px;
 }
+
+#suite
+{
+width: 80%;
+border-collapse: collapse;
+border: 1px solid #777;
+}
+#suite th
+{
+font-weight: bold;
+color: white;
+background-color: #777;
+}
+
+#suite td {
+border: 1px solid #777;
+padding: 2px;
+}
+.case
+{
+border-collapse:collapse;
+}
+.failCase
+{
+font-weight:bold;
+color:#c00;
+}
+.passCase
+{
+font-weight:bold;
+color:#106A10;
+}
 </style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+function open_suite_details(ele)
+{
+var target = $(ele).parent().parent().next().children().children()[0]
+var displayState = target.style.display;
+if(displayState == 'none')
+{
+  target.style.display = 'block';
+}
+else
+{
+ target.style.display = 'none';
+}
+}
+</script>
 </head>
 <body>

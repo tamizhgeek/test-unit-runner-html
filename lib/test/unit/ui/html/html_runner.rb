@@ -26,10 +26,8 @@ module Test
             @_source_cache = {}
             @already_outputted = false
             @top_level = true
-
-            @counts = Hash.new{ |h,k| h[k] = 0 }
             @html_result = ""
-
+            @summary = {}
           end
 
           private
@@ -46,8 +44,8 @@ module Test
             @mediator.add_listener(Test::Unit::UI::TestRunnerMediator::FINISHED, &method(:after_suite)) # After finishing the whole suite
             @mediator.add_listener(Test::Unit::TestCase::STARTED,         &method(:before_test)) # Before a individual test case
             @mediator.add_listener(Test::Unit::TestCase::FINISHED,        &method(:after_test)) # After a individual test case
-            @mediator.add_listener(Test::Unit::TestSuite::STARTED_OBJECT,        &method(:html_before_case))
-            @mediator.add_listener(Test::Unit::TestSuite::FINISHED_OBJECT,       &method(:html_after_case))
+            @mediator.add_listener(Test::Unit::TestSuite::STARTED_OBJECT,        &method(:html_before_case)) # Before a test group
+            @mediator.add_listener(Test::Unit::TestSuite::FINISHED_OBJECT,       &method(:html_after_case)) # After a test group
           end
 
           #
@@ -66,7 +64,7 @@ module Test
 
 
           def after_suite(time_taken)
-            html = Summary.new(time_taken, @counts[:total], @counts[:pass]).render
+            html = Summary.new(time_taken, 0, 0).render
             @html_result << html
             puts html
             html = Footer.render
@@ -76,48 +74,65 @@ module Test
           end
 
           def html_before_case(testcase)
-            if @level > 0 # This is to exclude to wrapper test script from the test report. Top level test suite will be ignored
-              html = TestSuiteStart.new(testcase, @level).render
-              @html_result <<  html
-            end
-            @level = @level  + 1
+            # if @level > 0 # This is to exclude to wrapper test script from the test report. Top level test suite will be ignored
+            #   html = TestSuiteStart.new(testcase, @level).render
+            #   @html_result <<  html
+            # end
+            # @level = @level  + 1
+            @tests = []
+            @counts = Hash.new{ |h,k| h[k] = 0 }
            end
 
           def html_after_case(testcase)
-            @level = @level - 1
-            if @level > 0 # This is to exclude to wrapper test script from the test report. Top level test suite will be ignored
-              html = TestSuiteEnd.new(testcase).render
-              @html_result <<  html
+            # @level = @level - 1
+            # if @level > 0 # This is to exclude to wrapper test script from the test report. Top level test suite will be ignored
+            #   html = TestSuiteEnd.new(testcase).render
+            #   @html_result <<  html
+            # end
+            if @counts
+              html = TestSuiteResult.new(testcase, @tests, @counts).render
+              p @tests
+              p testcase
+              p @counts
+              @html_result << html
+              puts html
             end
+            @tests = nil
+            @counts = nil
           end
 
           def before_test(test)
             # html = TestCaseResult.new(test, @test_start ,{}).render
             # @html_result << html
             # puts html
-            capture_output
+#            capture_output
           end
 
           def add_fault(fault)
             case fault
             when Test::Unit::Pending
               result = get_error(fault)
+              @counts[:error] += 1
             when Test::Unit::Omission
               result = get_error(fault)
+              @counts[:error] += 1
             when Test::Unit::Notification
               result = get_note(fault)
             when Test::Unit::Failure
               result = get_fail(fault)
+              @counts[:fail] += 1
+              @tests << {:name => sanitize_test_name(fault.test_name), :status => 'Failed', :testresult => false}
             else
               result = get_error(fault)
+              @counts[:error] += 1
+              @tests << {:name => sanitize_test_name(fault.test_name), :status => 'Errored', :testresult => false}
             end
             @counts[:total] += 1
-            @counts[:fail] += 1
             @already_outputted = true #if fault.critical?
-            output = reset_output
-            html = TestCaseResult.new(fault.test_name, "Failed", output, result['exception']).render
-            @html_result << html
-            puts html
+ #           output = reset_output
+            # html = TestCaseResult.new(fault.test_name, "Failed", output, result['exception']).render
+            # @html_result << html
+            # puts html
           end
 
           def get_note(note)
@@ -135,11 +150,17 @@ module Test
             else
               @counts[:total] += 1
               @counts[:pass]  += 1
-              output = reset_output
-              html = TestCaseResult.new(test, "Passed", output).render
-              @html_result << html
-              puts html
+              @tests << {:name => sanitize_test_name(test), :status => 'Passed', :testresult => true}
+  #            output = reset_output
+              # html = TestCaseResult.new(test, "Passed", output).render
+              # @html_result << html
+              # puts html
             end
+          end
+
+          # Testnames have the testsuite name appended to the end. Remove it and return only testname
+          def sanitize_test_name(name)
+            name.gsub(/\(.*\)/,'')
           end
 
           def get_error(fault)
@@ -299,8 +320,8 @@ module Test
 
           # Restore original stdout and stderr. Return the captured output as a string
           def reset_output
-            stdout = @_newout.string#.chomp("\n")
-            stderr = @_newerr.string#.chomp("\n")
+            stdout = @_newout.string #.chomp("\n")
+            stderr = @_newerr.string #.chomp("\n")
 
             doc = ""
             doc << stdout unless stdout.empty?

@@ -1,0 +1,18 @@
+<tr class="{{^fault}}green{{/fault}} {{#fault}}red{{/fault}}">
+<td> {{name}} </td>
+<td> {{result}}</td>
+<td> {{counts_total}}</td>
+<td> {{counts_pass}}</td>
+<td> {{counts_fail}}</td>
+<td> {{counts_error}}</td>
+<td> <a href="#" onclick="open_suite_details(this)">Detail</a></td>
+</tr>
+<tr>
+<td>
+<table class="case" style="display:none;">
+{{#tests}}
+{{> test_case_result }}
+{{/tests}}
+</table>
+</td>
+</tr>

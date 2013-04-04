@@ -49,7 +49,22 @@ module Test
 
           def initialize(testcase)
             @name = testcase.name
+          end
+        end
+
+        class TestSuiteResult < BasicTemplate
+          attr_reader :name, :result, :tests, :fault, :counts_total, :counts_pass, :counts_fail, :counts_error
+          self.template_name = "test_suite_result"
+
+          def initialize(testcase, tests, counts)
+            @name = testcase.name
+            @fault = !testcase.passed?
             @result = testcase.passed? ? "Passed" : "Failed"
+            @tests = tests
+            @counts_total = counts[:total]
+            @counts_pass = counts[:pass]
+            @counts_fail = counts[:fail]
+            @counts_error = counts[:error]
           end
         end
 
