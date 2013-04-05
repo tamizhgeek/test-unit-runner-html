@@ -32,26 +32,6 @@ module Test
           end
         end
 
-        class TestSuiteStart < BasicTemplate
-          attr_reader :name, :size, :level
-          self.template_name = "test_suite_start"
-
-          def initialize(testcase, level)
-            @name = testcase.name
-            @size = testcase.size
-            @level = level
-          end
-        end
-
-        class TestSuiteEnd < BasicTemplate
-          attr_reader :name, :result
-          self.template_name = "test_suite_end"
-
-          def initialize(testcase)
-            @name = testcase.name
-          end
-        end
-
         class TestSuiteResult < BasicTemplate
           attr_reader :name, :result, :tests, :fault, :counts_total, :counts_pass, :counts_fail, :counts_error
           self.template_name = "test_suite_result"
@@ -65,34 +45,6 @@ module Test
             @counts_pass = counts[:pass]
             @counts_fail = counts[:fail]
             @counts_error = counts[:error]
-          end
-        end
-
-        class TestCaseResult < BasicTemplate
-          attr_reader :name, :result, :output, :message, :class_name, :line, :source, :backtrace, :exception, :snippet
-
-          self.template_name = 'test_case_result'
-
-          def initialize(name, result, output, exception = {})
-            @name = name
-            @result = result
-            @output = output
-            @exception = exception
-            if fault
-              @message = exception['message']
-              @class_name = exception['class']
-              @line = exception['line']
-              @source = exception['source']
-              @snippet = exception['snippet']
-              @backtrace = exception['backtrace']
-            end
-          end
-
-          def stdout_present
-            !@output.empty?
-          end
-          def fault
-            !@exception.empty?
           end
         end
 

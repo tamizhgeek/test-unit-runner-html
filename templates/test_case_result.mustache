@@ -1,4 +1,41 @@
 <tr class="{{#testresult}} passCase {{/testresult}} {{^testresult}} failCase {{/testresult}}">
-<td>{{name}}</td>
-<td>{{status}}</td>
+{{#result}}
+<td>{{label}}</td>
+<td>{{text}}</td>
+{{/result}}
+{{#stdop}}
+<td style="color:black">
+<b>Captured Output:</b>
+<br>
+<code>{{stdop}}</code>
+</td>
+{{/stdop}}
+{{#result}}
+{{#exception}}
+<td style="color:black">
+<a href="#" onclick="show_fail_details(this)">Details</a>
+<span style="display:none">
+Message : <code> {{message}} </code>
+<br>
+Class : {{class_name}}
+<br>
+Line : {{line}}
+<br>
+Source :
+<br>
+<code> {{source}} </code>
+<br>
+Snippet :
+<br>
+<code>
+{{snippet}}
+</code>
+<br>
+backtrace :
+<br>
+<code> {{backtrace}} </code>
+</span>
+</td>
+{{/exception}}
+{{/result}}
 </tr>

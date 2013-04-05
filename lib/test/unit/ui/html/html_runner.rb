@@ -74,26 +74,13 @@ module Test
           end
 
           def html_before_case(testcase)
-            # if @level > 0 # This is to exclude to wrapper test script from the test report. Top level test suite will be ignored
-            #   html = TestSuiteStart.new(testcase, @level).render
-            #   @html_result <<  html
-            # end
-            # @level = @level  + 1
             @tests = []
             @counts = Hash.new{ |h,k| h[k] = 0 }
            end
 
           def html_after_case(testcase)
-            # @level = @level - 1
-            # if @level > 0 # This is to exclude to wrapper test script from the test report. Top level test suite will be ignored
-            #   html = TestSuiteEnd.new(testcase).render
-            #   @html_result <<  html
-            # end
             if @counts
               html = TestSuiteResult.new(testcase, @tests, @counts).render
-              p @tests
-              p testcase
-              p @counts
               @html_result << html
               puts html
             end
@@ -102,10 +89,7 @@ module Test
           end
 
           def before_test(test)
-            # html = TestCaseResult.new(test, @test_start ,{}).render
-            # @html_result << html
-            # puts html
-#            capture_output
+            capture_output
           end
 
           def add_fault(fault)
@@ -121,18 +105,16 @@ module Test
             when Test::Unit::Failure
               result = get_fail(fault)
               @counts[:fail] += 1
-              @tests << {:name => sanitize_test_name(fault.test_name), :status => 'Failed', :testresult => false}
             else
               result = get_error(fault)
               @counts[:error] += 1
-              @tests << {:name => sanitize_test_name(fault.test_name), :status => 'Errored', :testresult => false}
             end
+            test_result = {:result => result, :testresult => false}
+            output = reset_output
+            test_result[:stdop] = output unless output.empty?
+            @tests << test_result
             @counts[:total] += 1
             @already_outputted = true #if fault.critical?
- #           output = reset_output
-            # html = TestCaseResult.new(fault.test_name, "Failed", output, result['exception']).render
-            # @html_result << html
-            # puts html
           end
 
           def get_note(note)
@@ -150,17 +132,15 @@ module Test
             else
               @counts[:total] += 1
               @counts[:pass]  += 1
-              @tests << {:name => sanitize_test_name(test), :status => 'Passed', :testresult => true}
-  #            output = reset_output
-              # html = TestCaseResult.new(test, "Passed", output).render
-              # @html_result << html
-              # puts html
+              output = reset_output
+              result = {
+                "text" => "pass",
+                'label' => clean_label(test)
+              }
+              test_result = {:result => result, :testresult => true}
+              test_result[:stdop] = output unless output.empty?
+              @tests << test_result
             end
-          end
-
-          # Testnames have the testsuite name appended to the end. Remove it and return only testname
-          def sanitize_test_name(name)
-            name.gsub(/\(.*\)/,'')
           end
 
           def get_error(fault)
@@ -187,7 +167,7 @@ module Test
             file, line = location(fault.location)
             rel_file   = file.sub(Dir.pwd+'/', '')
             doc = {
-              'text' => "todo",
+              'text' => "fail",
               'label' => clean_label(fault.test_name),
               'expected'    => fault.inspected_expected,
               'returned'    => fault.inspected_actual,

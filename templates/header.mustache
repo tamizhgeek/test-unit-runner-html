@@ -76,6 +76,19 @@ else
  target.style.display = 'none';
 }
 }
+function show_fail_details(ele)
+{
+var target = $(ele).next()[0]
+var displayState = target.style.display;
+if(displayState == 'none')
+{
+  target.style.display = 'block';
+}
+else
+{
+ target.style.display = 'none';
+}
+}
 </script>
 </head>
 <body>
