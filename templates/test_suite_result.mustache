@@ -7,9 +7,9 @@
 <td> {{counts_error}}</td>
 <td> <a href="#" onclick="open_suite_details(this)">Detail</a></td>
 </tr>
-<tr>
+<tr style="display:none;">
 <td>
-<table class="case" style="display:none;">
+<table class="case">
 {{#tests}}
 {{> test_case_result }}
 {{/tests}}
