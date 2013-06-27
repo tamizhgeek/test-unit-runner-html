@@ -1,3 +1,4 @@
+
 # coding: utf-8
 # Copyright (c) 2013 Azhagu Selvan SP <tamizhgeek@gmail.com> (LGPL V3.0)
 
@@ -90,6 +91,7 @@ module Test
 
           def before_test(test)
             capture_output
+            @cur_test_name = test
           end
 
           def add_fault(fault)

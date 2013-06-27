@@ -34,6 +34,7 @@ background-color: green;
 width: 80%;
 border-collapse: collapse;
 border: 1px solid #777;
+table-layout:fixed;
 }
 #suite th
 {
@@ -45,6 +46,7 @@ background-color: #777;
 #suite td {
 border: 1px solid #777;
 padding: 2px;
+word-wrap:break-word;
 }
 .case
 {
@@ -83,6 +85,7 @@ var displayState = target.style.display;
 if(displayState == 'none')
 {
   target.style.display = 'block';
+  target.style.fontSize = '50%';
 }
 else
 {
