@@ -3,35 +3,36 @@
 <td>{{label}}</td>
 <td>{{text}}</td>
 {{/result}}
-{{#stdop}}
-<td style="color:black">
-<b>Captured Output:</b>
-<br>
-<code>{{stdop}}</code>
-</td>
-{{/stdop}}
 {{#result}}
+<td style="color:black;">
+{{#stdop}}
+<br>
+<span class="cage">
+{{stdop}}
+</span>
+{{/stdop}}
+</td>
 {{#exception}}
 <td style="color:black;font-size:60%;">
 <a href="#" onclick="show_fail_details(this)">Details</a>
 <span style="display:none">
-Message : <code> {{message}} </code>
+<i>Message</i> : <code> {{message}} </code>
 <br>
-Class : {{class_name}}
+<i>Class</i> : {{class_name}}
 <br>
-Line : {{line}}
+<i>Line</i> : {{line}}
 <br>
-Source :
+<i>Source</i> :
 <br>
 <code> {{source}} </code>
 <br>
-Snippet :
+</i>Snippet</i> :
 <br>
 <code>
 {{snippet}}
 </code>
 <br>
-backtrace :
+<i>backtrace</i> :
 <br>
 <code> {{backtrace}} </code>
 </span>
