@@ -6,7 +6,7 @@ require File.expand_path(File.dirname(__FILE__) + '/../lib/test/unit/ui/html/htm
 require File.expand_path(File.dirname(__FILE__) + '/fixtures/test_example.rb')
 class TestHtml < Test::Unit::TestCase
   def test_run
-    fail_line = nil
+    ## not used: fail_line = nil
     # test_case = Class.new(Test::Unit::TestCase) do
     #   def test_success
     #     assert_equal(3, 1 + 2)
@@ -16,7 +16,8 @@ class TestHtml < Test::Unit::TestCase
     # end
     output = StringIO.new
     runner = Test::Unit::UI::Html::HtmlTestRunner.new(TestExample.suite, :output => output)
-    result = runner.start; start_line = __LINE__
+    result = runner.start
+    ## not used: start_line = __LINE__
     assert_equal(<<-EOR, output.string.gsub(/Time Taken : [\d\.]+/, "Time Taken : 0.001").gsub(/Test Started at (.*?)<\/h1>/, 'Test Started at today</h1>'))
 <html>
 <head>

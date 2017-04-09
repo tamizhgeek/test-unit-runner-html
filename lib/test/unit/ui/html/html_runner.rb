@@ -77,7 +77,7 @@ module Test
           def html_before_case(testcase)
             @tests = []
             @counts = Hash.new{ |h,k| h[k] = 0 }
-           end
+          end
 
           def html_after_case(testcase)
             if @counts
