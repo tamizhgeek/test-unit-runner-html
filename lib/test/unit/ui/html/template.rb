@@ -49,7 +49,7 @@ module Test
         end
 
         class Info < BasicTemplate
-          attr_reader :name, :size, :started_at
+          attr_reader :name, :size
           self.template_name = 'info'
 
           def initialize(name, started_at, size)

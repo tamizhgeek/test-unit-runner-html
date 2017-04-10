@@ -56,34 +56,31 @@ module Test
           def before_suite(result)
             html = Header.render
             @html_result << html
-            puts html
             @result = result
             html = Info.new(@suite.to_s, Time.now, @suite.size).render
             @html_result << html
-            puts html
           end
 
 
           def after_suite(time_taken)
             html = Summary.new(time_taken, 0, 0).render
             @html_result << html
-            puts html
             html = Footer.render
             @html_result << html
             f = File.open("results.html", "w")
             f.write @html_result
+            puts @result
           end
 
           def html_before_case(testcase)
             @tests = []
             @counts = Hash.new{ |h,k| h[k] = 0 }
-           end
+          end
 
           def html_after_case(testcase)
             if @counts
               html = TestSuiteResult.new(testcase, @tests, @counts).render
               @html_result << html
-              puts html
             end
             @tests = nil
             @counts = nil
@@ -282,11 +279,11 @@ module Test
             message.strip.gsub(/\n+/, "\n")
           end
 
-          #
-          def puts(string='')
-            @output.write(string.chomp+"\n")
-            @output.flush
-          end
+          # 
+          # def puts(string='')
+          #   @output.write(string.chomp+"\n")
+          #   @output.flush
+          # end
 
           # Create fake stdio and stderr streams and capture the ouputs. Backup the original stdout and stderr
           def capture_output

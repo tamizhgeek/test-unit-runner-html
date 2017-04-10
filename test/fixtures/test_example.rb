@@ -12,7 +12,7 @@ class TestExample < Test::Unit::TestCase
   end
 
   def test_subtract
-    assert_equal(4, @number - 2, "Should have subtracted correctly")
+    assert_equal(3, @number - 2, "Should have subtracted correctly")
   end
 
   def teardown
